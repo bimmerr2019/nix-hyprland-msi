@@ -169,6 +169,9 @@ in
   };
 
   programs = {
+    ecryptfs = {
+      enable = true;
+    };
     proxychains = {
       enable = true;
       proxyDNS = true;
@@ -400,6 +403,10 @@ in
 
     # random stuff i found in my arch computer.
     proxychains
+    ecryptfs
+    openssl
+    untrunc
+    conda
     qbittorrent-qt5
     nfs-utils
     screenkey
@@ -613,44 +620,35 @@ in
     };
   };
 
-  systemd.services.pull-open-webui = {
-    description = "Pull Open WebUI Docker image";
-    after = [ "network-online.target" ];
-    wants = [ "network-online.target" ];
-    before = [ "open-webui.service" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.podman}/bin/podman pull ghcr.io/open-webui/open-webui:main";
-      RemainAfterExit = true;
-    };
+systemd.services.pull-open-webui = {
+  description = "Pull Open WebUI Docker image";
+  after = [ "network-online.target" ];
+  wants = [ "network-online.target" ];
+  serviceConfig = {
+    Type = "oneshot";
+    ExecStart = ''
+      ${pkgs.bash}/bin/bash -c '\
+        if ! ${pkgs.podman}/bin/podman image exists ghcr.io/open-webui/open-webui:main; then \
+          ${pkgs.podman}/bin/podman pull ghcr.io/open-webui/open-webui:main; \
+        fi'
+    '';
+    RemainAfterExit = true;
+    TimeoutStartSec = "30";
+    StartLimitIntervalSec = "300";  # 5 minutes, changed from StartLimitInterval
+    StartLimitBurst = "3";
+    FailureAction = "none";
+    SuccessAction = "none";
   };
+};
 
-  systemd.services.open-webui = {
-    description = "Open WebUI";
-    after = [ "network.target" "pull-open-webui.service" "podman.socket" ];
-    requires = [ "pull-open-webui.service" "podman.socket" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      ExecStartPre = [
-        "${pkgs.podman}/bin/podman stop -i open-webui || true"
-        "${pkgs.podman}/bin/podman rm -f open-webui || true"
-      ];
-      ExecStart = ''
-        ${pkgs.podman}/bin/podman run \
-          --rm \
-          --network=host \
-          -v open-webui:/app/backend/data \
-          -e OLLAMA_BASE_URL=http://127.0.0.1:11434 \
-          --name open-webui \
-          ghcr.io/open-webui/open-webui:main
-      '';
-      ExecStop = "${pkgs.podman}/bin/podman stop open-webui";
-      ExecStopPost = "${pkgs.podman}/bin/podman rm open-webui";
-      TimeoutStartSec = "20m";
-      Restart = "always";
-      Type = "simple";
-    };
-  };
+systemd.services.open-webui = {
+  description = "Open WebUI";
+  after = [ "network.target" "podman.socket" ];  # Remove pull-open-webui.service from after
+  requires = [ "podman.socket" ];  # Remove pull-open-webui.service from requires
+  wants = [ "pull-open-webui.service" ];  # Add as a weak dependency instead
+  wantedBy = [ "multi-user.target" ];
+  # ... rest of the service config
+};
 
   # Ensure podman.socket is enabled
   systemd.sockets.podman = {
