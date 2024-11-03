@@ -511,7 +511,7 @@ in {
       settings = {
         # ncmpcpp_directory = "~/.config/ncmpcpp";
         lyrics_directory = "~/.local/share/lyrics";
-        # mpd_music_dir = "~/Music";
+        # mpd_music_dir = "/home/bimmer/Music";
         message_delay_time = "1";
         # visualizer_type = "spectrum";
         song_list_format = "{$4%a - }{%t}|{$8%f$9}$R{$3(%l)$9}";
