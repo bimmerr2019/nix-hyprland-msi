@@ -85,7 +85,7 @@ in
   # Styling Options
   stylix = {
     enable = true;
-    image = ../../config/wallpapers/nordwall3.jpg;
+    image = ../../config/wallpapers/0169.jpg;
     # base16Scheme = {
     #   base00 = "232136";
     #   base01 = "2a273f";
@@ -288,7 +288,7 @@ in
     mutableUsers = true;
   };
 
-  documentation.man.generateCaches = false;
+  documentation.man.generateCaches = true;
   documentation.man.enable = true;
   documentation.man.man-db.enable = true;
 
@@ -427,6 +427,16 @@ in
     syncthing
     yubioath-flutter
     poppler_utils
+    tealdeer
+    # Basic build tools
+    gnumake
+    gcc
+    binutils
+    qrencode
+    
+    # Additional common build tools
+    pkg-config
+    cmake
 
   # Optionally, add a convenient way to run AppImages
     (writeShellScriptBin "run-appimage" ''

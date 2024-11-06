@@ -475,6 +475,14 @@ in {
       '';
     };
     zoxide.enable = true;
+    tealdeer = {
+      enable = true;
+      settings = {
+        updates = {
+          auto_update = true;
+        };
+      };
+    };
     gh.enable = true;
     btop = {
       enable = true;
