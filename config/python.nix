@@ -21,11 +21,10 @@
     pyqtwebengine
   ]);
 
-  # Specific environment for QTodoTxt
-  qtodotxtPython = pkgs.python39.withPackages (ps: with ps; [
+  # Updated to Python 3.11
+  qtodotxtPython = pkgs.python311.withPackages (ps: with ps; [
     pyqt5
     python-dateutil
     pyqtwebengine
   ]);
 }
-

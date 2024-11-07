@@ -288,7 +288,7 @@ in
     mutableUsers = true;
   };
 
-  documentation.man.generateCaches = true;
+  documentation.man.generateCaches = false;
   documentation.man.enable = true;
   documentation.man.man-db.enable = true;
 
@@ -405,9 +405,9 @@ in
     proxychains
     ecryptfs
     openssl
-    untrunc
+    untrunc-anthwlock
     conda
-    qbittorrent-qt5
+    qbittorrent
     nfs-utils
     screenkey
     tlrc
@@ -580,7 +580,7 @@ in
   fonts = {
     packages = with pkgs; [
       noto-fonts-emoji
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       font-awesome
       # symbola
       material-icons
