@@ -353,6 +353,7 @@ in
     networkmanagerapplet
     nmap
     whois
+    unar
     dig
     pulsemixer
     mkvtoolnix-cli
@@ -428,11 +429,14 @@ in
     yubioath-flutter
     poppler_utils
     tealdeer
+    zenity
+
     # Basic build tools
     gnumake
     gcc
     binutils
     qrencode
+    freetube
     
     # Additional common build tools
     pkg-config
@@ -441,6 +445,34 @@ in
   # Optionally, add a convenient way to run AppImages
     (writeShellScriptBin "run-appimage" ''
       ${appimage-run}/bin/appimage-run /opt/appimages/$1
+    '')
+
+    (writeShellScriptBin "tmux-restore" ''
+      ${pkgs.tmux}/bin/tmux start-server
+      ${pkgs.tmux}/bin/tmux new-session -d
+      ${pkgs.tmux}/bin/tmux run-shell "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/restore.sh"
+      ${pkgs.tmux}/bin/tmux attach-session -t 0
+    '')
+
+    (writeScriptBin "music-layout" ''
+      #!${pkgs.bash}/bin/bash
+      
+      # Create new window or use existing one
+      tmux new-window -n music || tmux select-window -t music
+      
+      # Split the window vertically into 3 panes
+      tmux split-window -v
+      tmux split-window -h
+      
+      # Select and run command in each pane
+      tmux select-pane -t 0
+      tmux send-keys "ncmpcpp -s media_library" C-m
+      
+      tmux select-pane -t 1
+      tmux send-keys "ncmpcpp -s playlist_editor" C-m
+      
+      tmux select-pane -t 2
+      tmux send-keys "ncmpcpp -s playlist" C-m
     '')
 
 # Wireguard control:
@@ -522,6 +554,15 @@ in
     '')
 
   # Add a desktop file for each appimage here:
+    (makeDesktopItem {
+      name = "Nunchuk";
+      desktopName = "Nunchuk";
+      exec = "${pkgs.appimage-run}/bin/appimage-run /opt/appimages/nunchuk-linux-1.9.39.AppImage";
+      icon = ""; # Leave empty if there's no icon
+      comment = "Nunchuk Application";
+      categories = [ "Utility" ];
+      terminal = false;
+    })
     (makeDesktopItem {
       name = "Session";
       desktopName = "Session";
@@ -624,29 +665,29 @@ in
       # Add these lines to ensure GPU support
     };
     # Enable Invidious
-    invidious = {
-       enable = true;
-       port = 3000;
-       settings = lib.mkForce {
-         check_tables = true;
-         db = {
-           dbname = "invidious";
-           host = "";
-           password = "";
-           port = 3000;
-           user = "invidious";
-         };
-         host_binding = "0.0.0.0";
-         default_user_preferences = {
-           locale = "en-US";
-           region = "US";
-         };
-         captions = [
-           "English"
-           "English (auto-generated)"
-         ];
-      };
-    };
+    # invidious = {
+    #    enable = true;
+    #    port = 3000;
+    #    settings = lib.mkForce {
+    #      check_tables = true;
+    #      db = {
+    #        dbname = "invidious";
+    #        host = "";
+    #        password = "";
+    #        port = 3000;
+    #        user = "invidious";
+    #      };
+    #      host_binding = "0.0.0.0";
+    #      default_user_preferences = {
+    #        locale = "en-US";
+    #        region = "US";
+    #      };
+    #      captions = [
+    #        "English"
+    #        "English (auto-generated)"
+    #      ];
+    #   };
+    # };
     greetd = {
       enable = true;
       vt = 3;

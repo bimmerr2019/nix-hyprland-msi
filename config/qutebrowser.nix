@@ -49,7 +49,7 @@
       };
       url = {
         default_page = "about:blank";
-        start_pages = [ "http://localhost:3000/feed/subscriptions" ];
+        start_pages = [ "https://www.zerohedge.com/" ];
       };
       window.transparent = true;
       zoom.default = "180%";

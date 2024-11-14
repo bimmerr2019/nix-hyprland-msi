@@ -325,6 +325,7 @@ in {
     };
     gtk4.extraConfig = {
       gtk-application-prefer-dark-theme = 1;
+      color-scheme = "prefer-dark"; # or "prefer-dark" if you want dark theme
     };
   };
   qt = {
@@ -672,20 +673,15 @@ in {
     kitty = {
       enable = true;
       package = pkgs.kitty;
+      font.size = config.stylix.fonts.sizes.terminal;
       settings = {
-        scrollback_lines = 2000;
+        scrollback_lines = 10000;
         wheel_scroll_min_lines = 1;
         window_padding_width = 4;
         confirm_os_window_close = 0;
-        # background_opacity = lib.mkForce "0.85";
       };
       extraConfig = ''
-                font_size 20.0
-                tab_bar_style fade
-                tab_fade 1
-                active_tab_font_style   bold
-                inactive_tab_font_style bold
-                map alt+u open_url_with_hints
+        map alt+u open_url_with_hints
         map ctrl+shift+j scroll_line_down
         map ctrl+shift+k scroll_line_up
         map ctrl+shift+u scroll_page_up
