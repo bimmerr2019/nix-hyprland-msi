@@ -2,7 +2,7 @@
 { pkgs }:
 
 {
-  basePython = pkgs.python311.withPackages (ps: with ps; [
+  basePython = pkgs.python312.withPackages (ps: with ps; [
     # LSP and development tools
     pip
     python-lsp-server
@@ -21,8 +21,8 @@
     pyqtwebengine
   ]);
 
-  # Updated to Python 3.11
-  qtodotxtPython = pkgs.python311.withPackages (ps: with ps; [
+  # Updated to Python 3.12
+  qtodotxtPython = pkgs.python312.withPackages (ps: with ps; [
     pyqt5
     python-dateutil
     pyqtwebengine

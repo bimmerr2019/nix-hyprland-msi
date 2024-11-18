@@ -85,7 +85,10 @@ in
   # Styling Options
   stylix = {
     enable = true;
-    image = ../../config/wallpapers/0169.jpg;
+    image = builtins.fetchurl {
+      url = "file://${toString ../../config/wallpapers/0169.jpg}";
+      sha256 = "sha256:00vm1zblizklx7bvsmmrrzmk7qmgln4xkrgalk6dmdbg8jdsgpjn"; # Leave empty first, Nix will tell you the correct hash
+    };
     # base16Scheme = {
     #   base00 = "232136";
     #   base01 = "2a273f";
@@ -373,7 +376,7 @@ in
     mpv
     pavucontrol
     tree
-    neovide
+    # neovide
     greetd.tuigreet
     sl
     newsboat

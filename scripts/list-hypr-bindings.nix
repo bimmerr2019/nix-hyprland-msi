@@ -34,7 +34,7 @@ pkgs.writeShellScriptBin "list-hypr-bindings" ''
   " + SHIFT + W" "Launch Web Browser" "${browser}" \
   " + SHIFT + E" "Launch Emoji Selector" "emopicker9000" \
   " + S" "Take Selectable Screenshot" "screenshootin area" \
-  " + PrtSc" "Take Full Screenshot" "screenshootin full" \
+  "PrtSc" "Take Full Screenshot" "screenshootin full" \
   " + P" "Pseudo Tiling" "pseudo" \
   " + SHIFT + I" "Toggle Split Direction" "togglesplit" \
   " + F" "Toggle Focused Fullscreen" "fullscreen" \

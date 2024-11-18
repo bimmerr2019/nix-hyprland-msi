@@ -1,4 +1,11 @@
 final: prev: {
+  calibre = prev.calibre.overrideAttrs (oldAttrs: {
+    doCheck = false;
+    doInstallCheck = false;
+    checkPhase = "true";
+    installCheckPhase = "true";
+  });
+
   signal-desktop = prev.stdenv.mkDerivation rec {
     pname = "signal-desktop";
     version = "7.32.0";
