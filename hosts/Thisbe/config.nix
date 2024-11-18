@@ -86,8 +86,8 @@ in
   stylix = {
     enable = true;
     image = builtins.fetchurl {
-      url = "file://${toString ../../config/wallpapers/0169.jpg}";
-      sha256 = "sha256:00vm1zblizklx7bvsmmrrzmk7qmgln4xkrgalk6dmdbg8jdsgpjn"; # Leave empty first, Nix will tell you the correct hash
+      url = "file://${toString ../../config/wallpapers/0239.jpg}";
+      sha256 = "sha256:18q43zfshys2fyy9acgbxl4fqpv25rn9cvjy768njlc8nc2bk939"; # Leave empty first, Nix will tell you the correct hash
     };
     # base16Scheme = {
     #   base00 = "232136";
